@@ -18,21 +18,25 @@ npm install khojo
 
 ```ts
 import { Client } from "khojo";
-const client = new Client(process.env.LASTFM_TOKEN);
 
-/* username is mandatory, time limit and the limit of number of artists is optional */
-// get the top artists of an user
-console.log(await client.getTopArtists("KidnappingNemo", "7day", 5));
-// get the top albums of an user
-console.log(await client.getTopAlbums("KidnappingNemo", "7day", 5));
-// get the top songs of an user
-console.log(await client.getTopTracks("KidnappingNemo", "7day", 5));
+const token = process.env.LASTFM_TOKEN;
+if (!token) throw new Error("LASTFM_TOKEN is required");
 
-/* username is mandatory, limit is optional but recommended*/
-// get the recent tracks listening by a user
-console.dir(await client.getRecentTracks("KidnappingNemo", 1));
+const client = new Client(token);
+
+/* username is mandatory; period and limit are optional */
+// get the top artists of a user
+console.log(await client.getTopArtists({ username: "KidnappingNemo", period: "7day", limit: 5 }));
+// get the top albums of a user
+console.log(await client.getTopAlbums({ username: "KidnappingNemo", period: "7day", limit: 5 }));
+// get the top songs of a user
+console.log(await client.getTopTracks({ username: "KidnappingNemo", period: "7day", limit: 5 }));
+
+/* username is mandatory; limit is optional but recommended */
+// get the recent tracks a user has listened to
+console.dir(await client.getRecentTracks({ username: "KidnappingNemo", limit: 1 }));
 // get the info available for a user
-console.log(await client.getInfo("KidnappingNemo"));
+console.log(await client.getInfo({ username: "KidnappingNemo" }));
 ```
 
 ## Why?

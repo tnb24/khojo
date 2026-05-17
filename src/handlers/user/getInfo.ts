@@ -1,20 +1,14 @@
 import axios from "axios";
-import { getInfo } from "../../types/types";
+import { GetInfoParams, UserInfo } from "../../types/types";
 
-export async function getInfo(params: getInfo) {
-  try {
-    const method = "user.getinfo";
-    const data = await axios.get(params.API_LINK, {
-      params: {
-        method,
-        username: params.username,
-        api_key: params.KEY,
-        format: "json",
-      },
-    });
-    const ProfileInfo = await data.data.user;
-    return ProfileInfo;
-  } catch (error) {
-    console.error(error);
-  }
+export async function getInfo(params: GetInfoParams): Promise<UserInfo> {
+  const response = await axios.get(params.API_LINK, {
+    params: {
+      method: "user.getinfo",
+      username: params.username,
+      api_key: params.KEY,
+      format: "json",
+    },
+  });
+  return response.data.user;
 }
